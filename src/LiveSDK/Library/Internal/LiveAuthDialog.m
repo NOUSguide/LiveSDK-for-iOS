@@ -55,6 +55,9 @@
 {
     [super viewDidLoad];
     
+    self.webView = [[[UIWebView alloc] initWithFrame:self.view.bounds] autorelease];
+    self.webView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
+    [self.view addSubview:self.webView];
     self.webView.delegate = self;
     
     // Override the left button to show a back button
