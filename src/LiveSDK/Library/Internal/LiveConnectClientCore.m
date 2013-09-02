@@ -66,7 +66,9 @@
         [LiveAuthHelper isScopes:scopes subSetOf:self.session.scopes]) 
     {
         NSArray *authCompletedEvent = [NSArray arrayWithObjects:delegate, userState, nil];
-        [self performSelector:@selector(sendAuthCompletedMessage:) withObject:authCompletedEvent afterDelay:0.1];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self sendAuthCompletedMessage:authCompletedEvent];
+        });
         return;
     }
     
@@ -97,7 +99,9 @@
     if ([delegate respondsToSelector:@selector(authCompleted:session:userState:)]) 
     {
         NSArray *authCompletedEvent = [NSArray arrayWithObjects:delegate, userState, nil];
-        [self performSelector:@selector(sendAuthCompletedMessage:) withObject:authCompletedEvent afterDelay:0.1];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            [self sendAuthCompletedMessage:authCompletedEvent];
+        });
     }
 }
 
@@ -148,9 +152,9 @@
         if ([delegate respondsToSelector:@selector(authCompleted:session:userState:)]) 
         {
             NSArray *authCompletedEvent = [NSArray arrayWithObjects:delegate, userState, nil];
-            [self performSelector:@selector(sendAuthCompletedMessage:) 
-                       withObject:authCompletedEvent 
-                       afterDelay:0.1];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [self sendAuthCompletedMessage:authCompletedEvent];
+            });
         }
     }
 }

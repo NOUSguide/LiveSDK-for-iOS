@@ -202,7 +202,9 @@
         [request setHTTPBody:self.requestBody];
     }
     
-    self.connection = [LiveConnectionHelper createConnectionWithRequest:request delegate:self];    
+    dispatch_async(dispatch_get_main_queue(), ^{ 
+        self.connection = [LiveConnectionHelper createConnectionWithRequest:request delegate:self];
+    });
 }
 
 - (NSMutableData *)responseData
